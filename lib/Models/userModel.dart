@@ -12,7 +12,7 @@ class UserModel{
     required this.email,
     required this.senha,
     required this.numero,
-});
+  });
 
 
   Map<String, dynamic> toMap(){

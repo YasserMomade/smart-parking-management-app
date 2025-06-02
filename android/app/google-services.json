@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "780168884512",
-    "project_id": "gestao-vagas",
-    "storage_bucket": "gestao-vagas.firebasestorage.app"
+    "project_number": "335504374053",
+    "project_id": "sistema-parkwise",
+    "storage_bucket": "sistema-parkwise.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:780168884512:android:6ccae1c1989216050b2745",
+        "mobilesdk_app_id": "1:335504374053:android:39b521ca2cff33992d42cc",
         "android_client_info": {
           "package_name": "com.marcacaovagas.marcacaovagas"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBKJapu0KuDwWw2QI_BKtoHT-TXv3BYviY"
+          "current_key": "AIzaSyCA-5XujGtPZI9hxVoFID5aFzLRjXymeIk"
         }
       ],
       "services": {

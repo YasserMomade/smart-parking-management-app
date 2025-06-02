@@ -50,7 +50,7 @@ class UserController {
   }
 
   Future<void> logOut() async{
-     _firebaseAuth.signOut();
+    _firebaseAuth.signOut();
   }
 
 }

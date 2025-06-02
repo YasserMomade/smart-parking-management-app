@@ -41,48 +41,47 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyA4NlP32UgFuaJTwnj1bsTy5Sid3mFMrcg',
-    appId: '1:780168884512:web:ee66981829b425c80b2745',
-    messagingSenderId: '780168884512',
-    projectId: 'gestao-vagas',
-    authDomain: 'gestao-vagas.firebaseapp.com',
-    storageBucket: 'gestao-vagas.firebasestorage.app',
-    measurementId: 'G-BB1SZMZGSE',
+    apiKey: 'AIzaSyACpMNjKknMtM3D6_eMEB3UN4wIhIKugNQ',
+    appId: '1:335504374053:web:2800a0de550642ce2d42cc',
+    messagingSenderId: '335504374053',
+    projectId: 'sistema-parkwise',
+    authDomain: 'sistema-parkwise.firebaseapp.com',
+    storageBucket: 'sistema-parkwise.firebasestorage.app',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBKJapu0KuDwWw2QI_BKtoHT-TXv3BYviY',
-    appId: '1:780168884512:android:6ccae1c1989216050b2745',
-    messagingSenderId: '780168884512',
-    projectId: 'gestao-vagas',
-    storageBucket: 'gestao-vagas.firebasestorage.app',
+    apiKey: 'AIzaSyCA-5XujGtPZI9hxVoFID5aFzLRjXymeIk',
+    appId: '1:335504374053:android:39b521ca2cff33992d42cc',
+    messagingSenderId: '335504374053',
+    projectId: 'sistema-parkwise',
+    storageBucket: 'sistema-parkwise.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAW7mdamYgLqeUsjcvQ3u2h0WwGLgvlbcM',
-    appId: '1:780168884512:ios:49356c6dabb2acdd0b2745',
-    messagingSenderId: '780168884512',
-    projectId: 'gestao-vagas',
-    storageBucket: 'gestao-vagas.firebasestorage.app',
+    apiKey: 'AIzaSyCppIWb6F2oRVGYiJLSBw0fOgvSz9ZwjkI',
+    appId: '1:335504374053:ios:f4034e6f18fed0532d42cc',
+    messagingSenderId: '335504374053',
+    projectId: 'sistema-parkwise',
+    storageBucket: 'sistema-parkwise.firebasestorage.app',
     iosBundleId: 'com.marcacaovagas.marcacaovagas',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyAW7mdamYgLqeUsjcvQ3u2h0WwGLgvlbcM',
-    appId: '1:780168884512:ios:49356c6dabb2acdd0b2745',
-    messagingSenderId: '780168884512',
-    projectId: 'gestao-vagas',
-    storageBucket: 'gestao-vagas.firebasestorage.app',
+    apiKey: 'AIzaSyCppIWb6F2oRVGYiJLSBw0fOgvSz9ZwjkI',
+    appId: '1:335504374053:ios:f4034e6f18fed0532d42cc',
+    messagingSenderId: '335504374053',
+    projectId: 'sistema-parkwise',
+    storageBucket: 'sistema-parkwise.firebasestorage.app',
     iosBundleId: 'com.marcacaovagas.marcacaovagas',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyA4NlP32UgFuaJTwnj1bsTy5Sid3mFMrcg',
-    appId: '1:780168884512:web:425c94b2dee59e250b2745',
-    messagingSenderId: '780168884512',
-    projectId: 'gestao-vagas',
-    authDomain: 'gestao-vagas.firebaseapp.com',
-    storageBucket: 'gestao-vagas.firebasestorage.app',
-    measurementId: 'G-Q8VQTHVNHV',
+    apiKey: 'AIzaSyACpMNjKknMtM3D6_eMEB3UN4wIhIKugNQ',
+    appId: '1:335504374053:web:690c18fab94ad2e32d42cc',
+    messagingSenderId: '335504374053',
+    projectId: 'sistema-parkwise',
+    authDomain: 'sistema-parkwise.firebaseapp.com',
+    storageBucket: 'sistema-parkwise.firebasestorage.app',
   );
+
 }
