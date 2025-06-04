@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'HistoricoTela.dart';
 import 'adicionar_Viatura.dart';
 
 class telaMenu extends StatelessWidget {
@@ -192,7 +193,14 @@ class telaMenu extends StatelessWidget {
                     _cartaoMenu(
                       icon: Icons.article_outlined,
                       title: 'Histórico',
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                            builder: (context) => const HistoricoTela(),
+                        ),
+                        );
+                      },
                     ),
                     _cartaoMenu(
                       icon: Icons.error_outline, // Ícone de exclamação da imagem

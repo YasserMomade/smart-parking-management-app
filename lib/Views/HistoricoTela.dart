@@ -10,15 +10,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HistoricoView(),
+      home: const HistoricoTela(),
     );
   }
 }
 
-
-
-class HistoricoView extends StatelessWidget {
-  const HistoricoView({super.key});
+class HistoricoTela extends StatelessWidget {
+  const HistoricoTela({super.key});
 
   @override
   Widget build(BuildContext context) {
