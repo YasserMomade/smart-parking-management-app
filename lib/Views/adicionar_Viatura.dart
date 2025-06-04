@@ -28,21 +28,14 @@ class _estadoTelaAddViatura extends State<AdicionarViatura> {
       body: SafeArea(
         child: Column(
           children: [
-            // Custom App Bar - Conforme a tela de menu, mas com seta de voltar
+
             Container(
               color: Colors.white,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  GestureDetector(
-                    onTap: () => Navigator.pop(context), // Botão de voltar
-                    child: Icon(
-                      Icons.arrow_back, // Ícone de seta para voltar
-                      color: Colors.black,
-                      size: 24,
-                    ),
-                  ),
+
                   Text(
                     'ParkWise',
                     style: TextStyle(

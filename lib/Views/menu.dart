@@ -188,7 +188,13 @@ class telaMenu extends StatelessWidget {
                     _cartaoMenu(
                       icon: Icons.assignment,
                       title: 'Lista de veículo',
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                            builder: (context) => const TelaListarVeiculos()
+                        ),
+                      },
                     ),
                     _cartaoMenu(
                       icon: Icons.article_outlined,
