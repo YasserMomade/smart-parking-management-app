@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(const ParkWiseApp());
+void main() => runApp(const vagaepagamento());
 
-class ParkWiseApp extends StatelessWidget {
-  const ParkWiseApp({super.key});
+class vagaepagamento extends StatelessWidget {
+  const vagaepagamento({super.key});
 
   @override
   Widget build(BuildContext context) {
