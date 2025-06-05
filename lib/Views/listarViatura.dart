@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:marcacaovagas/Controllers/veiculoController.dart';
 import 'package:marcacaovagas/Models/veiculoModel.dart';
 
 import '../Controllers/UserController.dart';
@@ -15,6 +16,53 @@ class TelaListarVeiculos extends StatefulWidget {
 
 class _TelaListarVeiculosState extends State<TelaListarVeiculos> {
 
+  bool carregando = false;
+
+// Pegando utilizador
+  String? userId;
+  String? userEmail;
+
+
+  @override
+  void initState(){
+    super.initState();
+    _getUser();
+  }
+
+  void  _getUser() async{
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if(user != null){
+      setState(() {
+        userId = user.uid;
+        userEmail = user.email;
+      });
+
+      await _listarVeiculos();
+
+    }
+  }
+
+  List<VeiculoModel> listaVeiculos = [];
+
+  Future<void> _listarVeiculos() async{
+
+    setState(() {
+      carregando = true;
+    });
+
+    final veiculoController = VeiculoController();
+    final lista = await veiculoController.getveiculos(userId!);
+
+    setState(() {
+      listaVeiculos = lista;
+      carregando = false;
+    });
+
+  }
+
+
+
 
 
   @override
@@ -22,7 +70,57 @@ class _TelaListarVeiculosState extends State<TelaListarVeiculos> {
     return Scaffold(
 
 
-      
+      drawer:  Drawer(
+
+        child: ListView(
+          children: [
+
+            UserAccountsDrawerHeader(
+              decoration: BoxDecoration(
+                color: Color(0xFF0052D4),
+              ),
+
+              currentAccountPicture: Container(
+                width: 200,
+                height: 290,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/logo.png'),
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+
+
+              accountEmail: Text(userEmail!), accountName: null,
+
+
+            ),
+
+            ListTile(
+              title: Text("Menu"), leading: Icon(Icons.home_rounded),
+              onTap: (){
+
+              },
+            ),
+
+            Divider(),
+
+            ListTile(
+              title: Text("Sair"), leading: Icon(Icons.logout),
+              onTap: (){
+                UserController().logOut();
+              },
+            ),
+
+
+
+          ],
+
+        ),
+
+
+      ),
 
 
       appBar: AppBar(
@@ -65,9 +163,9 @@ class _TelaListarVeiculosState extends State<TelaListarVeiculos> {
                     // Navigate to 'telaMenu'
                     //Navigator.push(
                     //  context,
-                     // MaterialPageRoute(
-                       // builder: (context) => const telaMenu(),
-                      //),
+                    // MaterialPageRoute(
+                    // builder: (context) => const telaMenu(),
+                    //),
                     //);
                   },
                 ),
@@ -83,7 +181,16 @@ class _TelaListarVeiculosState extends State<TelaListarVeiculos> {
 
             const SizedBox(height: 16),
 
-            
+            Expanded(child: carregando ?
+            const Center(child: CircularProgressIndicator(color: Colors.blueAccent),)
+                :listaVeiculos.isEmpty ? const Center(
+              child: Text("Voce nao tem veiculos cadastrados.") ,):
+            ListView.builder(
+                itemCount: listaVeiculos.length,
+                itemBuilder: (_, i){
+                  final veiculo = listaVeiculos[i];
+                  return VeiculoCard(veiculo: veiculo);
+                }))
 
           ],
         ),
@@ -117,10 +224,10 @@ class VeiculoCard extends StatelessWidget {
           ),
 
           title: Text(
-            "mark x",
+            veiculo.marca,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          subtitle:  Text("Matricula: 20222"),
+          subtitle:  Text("Matricula: ${veiculo.matricula}"),
           trailing: const Icon(Icons.more_vert),
         ),
       ),

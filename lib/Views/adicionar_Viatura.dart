@@ -13,10 +13,26 @@ class AdicionarViatura extends StatefulWidget {
 
 class _estadoTelaAddViatura extends State<AdicionarViatura> {
 
- 
+  String? userId;
+  String? userEmail;
 
+  @override
+  void initState(){
+    super.initState();
+    _getUser();
+  }
 
+  void _getUser(){
+    User? user = FirebaseAuth.instance.currentUser;
 
+    if(user != null) {
+      userId = user.uid;
+      userEmail = user.email;
+    }
+  }
+
+  bool carregando = false;
+  VeiculoController _veiculoController = VeiculoController();
 
   final _formKey = GlobalKey<FormState>();
   final _marcaController = TextEditingController();
@@ -266,6 +282,24 @@ class _estadoTelaAddViatura extends State<AdicionarViatura> {
   }
 
   void _adicionarVeiculo() {
+
+
+    setState(() {
+      carregando = true;
+    });
+
+    VeiculoModel veiculo = VeiculoModel
+      (id: Uuid().v1(),
+        marca: _marcaController.text,
+        matricula: _matriculaController.text,
+        descricao: _descricaoController.text,
+        proprietario: userId!);
+
+    _veiculoController.addVeiculo(veiculo).then((value){
+
+      setState(() {
+        carregando = false;
+      });
 
     });
 
