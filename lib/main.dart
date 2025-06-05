@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:marcacaovagas/Views/TelaInicialView.dart';
+import 'Views/menu.dart';
 import 'firebase_options.dart';
-import 'Views/MenuView.dart';
-import 'Views/TelaInicialView.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,7 +36,7 @@ class roteador extends StatelessWidget {
         builder: (context,snapshot){
 
           if(snapshot.hasData){
-            return  MenuView();
+            return  telaMenu(user: snapshot.data!,);
           }else{
             return Telainicialview();
           }

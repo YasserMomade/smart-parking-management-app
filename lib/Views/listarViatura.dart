@@ -1,13 +1,97 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../Controllers/UserController.dart';
+import 'menu.dart';
 
-class TelaListarVeiculos extends StatelessWidget {
+
+class TelaListarVeiculos extends StatefulWidget {
   const TelaListarVeiculos({super.key});
+
+  @override
+  State<TelaListarVeiculos> createState() => _TelaListarVeiculosState();
+}
+
+class _TelaListarVeiculosState extends State<TelaListarVeiculos> {
+
+// Pegando utilizador
+ String? userId;
+ String? userEmail;
+
+ @override
+ void initState(){
+   super.initState();
+   _loadUser();
+ }
+
+ void  _loadUser(){
+   User? user = FirebaseAuth.instance.currentUser;
+
+   if(user != null){
+     userId = user.uid;
+     userEmail = user.email;
+   }
+
+ }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const Drawer(),
+
+
+      drawer:  Drawer(
+
+        child: ListView(
+          children: [
+
+            UserAccountsDrawerHeader(
+                decoration: BoxDecoration(
+                  color: Color(0xFF0052D4),
+                ),
+
+                currentAccountPicture: Container(
+                  width: 200,
+                  height: 290,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/logo.png'),
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
+
+
+                accountEmail: Text(userEmail!), accountName: null,
+
+
+            ),
+
+            ListTile(
+              title: Text("Menu"), leading: Icon(Icons.home_rounded),
+              onTap: (){
+
+              },
+            ),
+
+            Divider(),
+
+            ListTile(
+              title: Text("Sair"), leading: Icon(Icons.logout),
+              onTap: (){
+                UserController().logOut();
+              },
+            ),
+
+
+
+          ],
+
+        ),
+
+
+      ),
+
+
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -45,12 +129,12 @@ class TelaListarVeiculos extends StatelessWidget {
                   icon: const Icon(Icons.arrow_back),
                   onPressed: () {
                     // Navigate to 'telaMenu'
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const telaMenu(),
-                      ),
-                    );
+                    //Navigator.push(
+                    //  context,
+                     // MaterialPageRoute(
+                       // builder: (context) => const telaMenu(),
+                      //),
+                    //);
                   },
                 ),
                 const SizedBox(width: 8),

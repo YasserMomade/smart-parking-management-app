@@ -1,13 +1,96 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import '../Controllers/UserController.dart';
 import 'HistoricoTela.dart';
 import 'adicionar_Viatura.dart';
+import 'listarViatura.dart';
 
-class telaMenu extends StatelessWidget {
-  const telaMenu({super.key});
+class telaMenu extends StatefulWidget {
+  final User user;
+   telaMenu({super.key, required this.user});
 
+
+
+  @override
+  State<telaMenu> createState() => _telaMenuState();
+}
+
+class _telaMenuState extends State<telaMenu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+      //Drawer
+
+      drawer:  Drawer(
+
+        child: ListView(
+          children: [
+
+               UserAccountsDrawerHeader(
+                  decoration: BoxDecoration(
+                    color: Color(0xFF0052D4),
+                  ),
+
+                   currentAccountPicture: Container(
+                     width: 200,
+                     height: 290,
+                     decoration: BoxDecoration(
+                       image: DecorationImage(
+                         image: AssetImage('assets/logo.png'),
+                         fit: BoxFit.contain,
+                       ),
+                     ),
+                   ),
+
+                  accountName: Text((widget.user.displayName != null) ?widget.user.displayName! : "") ,
+                  accountEmail: Text(widget.user.email!)
+
+
+              ),
+
+
+            ListTile(
+              title: Text("Sair"), leading: Icon(Icons.logout),
+              onTap: (){
+                UserController().logOut();
+              },
+            ),
+          ],
+
+        ),
+
+
+      ),
+
+
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: const Icon(Icons.menu, color: Colors.black),
+            onPressed: () => Scaffold.of(context).openDrawer(),
+          ),
+        ),
+        actions: const [
+          Padding(
+            padding: EdgeInsets.only(right: 16),
+            child: Icon(Icons.notifications_none, color: Colors.black),
+          ),
+        ],
+        title: const Center(
+          child: Text(
+            "ParkWise",
+            style: TextStyle(
+              color: Colors.blue,
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
+          ),
+        ),
+      ),
+
       backgroundColor: const Color(0xFFF0F2F5),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -15,33 +98,6 @@ class telaMenu extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
-              Container(
-                color: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Icon(
-                      Icons.menu,
-                      color: Colors.black,
-                      size: 24,
-                    ),
-                    Text(
-                      'ParkWise',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF2196F3), // Azul do ParkWise
-                      ),
-                    ),
-                    Icon(
-                      Icons.notifications_outlined,
-                      color: Colors.black,
-                      size: 24,
-                    ),
-                  ],
-                ),
-              ),
 
               const SizedBox(height: 20),
 
@@ -192,8 +248,9 @@ class telaMenu extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                            builder: (context) => const TelaListarVeiculos()
-                        ),
+                            builder: (context) => const TelaListarVeiculos(),
+                            ),
+                        );
                       },
                     ),
                     _cartaoMenu(
