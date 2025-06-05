@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:marcacaovagas/Controllers/veiculoController.dart';
+import 'package:marcacaovagas/Models/veiculoModel.dart';
 
 import '../Controllers/UserController.dart';
 import 'menu.dart';
@@ -14,25 +16,54 @@ class TelaListarVeiculos extends StatefulWidget {
 
 class _TelaListarVeiculosState extends State<TelaListarVeiculos> {
 
+  bool carregando = false;
+  
 // Pegando utilizador
  String? userId;
  String? userEmail;
 
+ 
  @override
  void initState(){
    super.initState();
-   _loadUser();
+   _getUser();
  }
 
- void  _loadUser(){
+ void  _getUser() async{
    User? user = FirebaseAuth.instance.currentUser;
 
    if(user != null){
-     userId = user.uid;
-     userEmail = user.email;
+     setState(() {
+       userId = user.uid;
+       userEmail = user.email;
+     });
+
+     await _listarVeiculos();
+
    }
+ }
+
+  List<VeiculoModel> listaVeiculos = [];
+
+ Future<void> _listarVeiculos() async{
+   
+   setState(() {
+     carregando = true;
+   });
+   
+   final veiculoController = VeiculoController();
+   final lista = await veiculoController.getveiculos(userId!);
+
+   setState(() {
+     listaVeiculos = lista;
+     carregando = false;
+   });
 
  }
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -123,6 +154,7 @@ class _TelaListarVeiculosState extends State<TelaListarVeiculos> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+
             Row(
               children: [
                 IconButton(
@@ -146,13 +178,20 @@ class _TelaListarVeiculosState extends State<TelaListarVeiculos> {
                 const Icon(Icons.directions_car_filled),
               ],
             ),
+
             const SizedBox(height: 16),
-            Expanded(
-              child: ListView.builder(
-                itemCount: 3,
-                itemBuilder: (_, index) => const VeiculoCard(),
-              ),
-            ),
+
+            Expanded(child: carregando ? 
+                const Center(child: CircularProgressIndicator(color: Colors.blueAccent),)
+            :listaVeiculos.isEmpty ? const Center(
+              child: Text("Voce nao tem veiculos cadastrados.") ,):
+            ListView.builder(
+                itemCount: listaVeiculos.length,
+                itemBuilder: (_, i){
+                  final veiculo = listaVeiculos[i];
+                  return VeiculoCard(veiculo: veiculo);
+                }))
+
           ],
         ),
       ),
@@ -161,13 +200,16 @@ class _TelaListarVeiculosState extends State<TelaListarVeiculos> {
 }
 
 class VeiculoCard extends StatelessWidget {
-  const VeiculoCard({super.key});
+  final VeiculoModel veiculo;
+
+  const VeiculoCard({super.key,
+    required this.veiculo});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        print('Veículo Card Tapped');
+        print('Veiculo clicad: ${veiculo.id}');
       },
       child: Card(
         elevation: 4,
@@ -180,11 +222,12 @@ class VeiculoCard extends StatelessWidget {
             color: Colors.orange,
             size: 30,
           ),
-          title: const Text(
-            "Mark X",
-            style: TextStyle(fontWeight: FontWeight.bold),
+
+          title: Text(
+            veiculo.marca,
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          subtitle: const Text("Matricula: AF1-DSF"),
+          subtitle:  Text("Matricula: ${veiculo.matricula}"),
           trailing: const Icon(Icons.more_vert),
         ),
       ),

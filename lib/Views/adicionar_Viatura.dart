@@ -1,4 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:marcacaovagas/Controllers/veiculoController.dart';
+import 'package:marcacaovagas/Models/veiculoModel.dart';
+import 'package:uuid/uuid.dart';
 
 class AdicionarViatura extends StatefulWidget {
   const AdicionarViatura({super.key});
@@ -9,6 +13,26 @@ class AdicionarViatura extends StatefulWidget {
 
 class _estadoTelaAddViatura extends State<AdicionarViatura> {
 
+  String? userId;
+  String? userEmail;
+
+  @override
+  void initState(){
+    super.initState();
+    _getUser();
+  }
+
+  void _getUser(){
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if(user != null) {
+      userId = user.uid;
+      userEmail = user.email;
+    }
+  }
+
+  bool carregando = false;
+  VeiculoController _veiculoController = VeiculoController();
 
   final _formKey = GlobalKey<FormState>();
   final _marcaController = TextEditingController();
@@ -164,6 +188,8 @@ class _estadoTelaAddViatura extends State<AdicionarViatura> {
                           width: 200, // Largura do botão (mantido do código original)
                           height: 50,
                           // margin: const EdgeInsets.symmetric(horizontal: 24.0), // A margem já é aplicada no SingleChildScrollView
+
+
                           child: ElevatedButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
@@ -178,12 +204,17 @@ class _estadoTelaAddViatura extends State<AdicionarViatura> {
                               ),
                               elevation: 0, // Sem sombra
                             ),
-                            child: Text(
+                            child:
+                            (carregando)? const SizedBox(height: 16,width: 17,
+                              child: CircularProgressIndicator(color: Colors.black),):
+                            Text(
                               'Adicionar',
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
                               ),
+
+
                             ),
                           ),
                         ),
@@ -251,7 +282,27 @@ class _estadoTelaAddViatura extends State<AdicionarViatura> {
   }
 
   void _adicionarVeiculo() {
-    // Aqui você pode implementar a lógica para salvar o veículo
+
+
+    setState(() {
+      carregando = true;
+    });
+
+    VeiculoModel veiculo = VeiculoModel
+      (id: Uuid().v1(),
+        marca: _marcaController.text,
+        matricula: _matriculaController.text,
+        descricao: _descricaoController.text,
+        proprietario: userId!);
+
+    _veiculoController.addVeiculo(veiculo).then((value){
+
+      setState(() {
+        carregando = false;
+      });
+
+    });
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Veículo adicionado com sucesso!'),

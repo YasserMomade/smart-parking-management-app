@@ -53,4 +53,7 @@ class UserController {
     _firebaseAuth.signOut();
   }
 
+
+
+
 }
