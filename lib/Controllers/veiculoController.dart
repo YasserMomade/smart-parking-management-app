@@ -35,9 +35,10 @@ class VeiculoController {
       print("Erro ao buscar veiculos: $e");
       return [];
     }
+  }
 
-
-
+  Future<void> delVeiculo(String id) async {
+    await _firestore.collection('veiculos').doc(id).delete();
   }
 
 }

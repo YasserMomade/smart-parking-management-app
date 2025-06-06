@@ -27,6 +27,7 @@ class _TelaListarVeiculosState extends State<TelaListarVeiculos> {
   void initState(){
     super.initState();
     _getUser();
+    _listarVeiculos();
   }
 
   void  _getUser() async{
@@ -42,9 +43,6 @@ class _TelaListarVeiculosState extends State<TelaListarVeiculos> {
 
     }
   }
-
-  List<VeiculoModel> listaVeiculos = [];
-
   Future<void> _listarVeiculos() async{
 
     setState(() {
@@ -61,6 +59,8 @@ class _TelaListarVeiculosState extends State<TelaListarVeiculos> {
 
   }
 
+
+  List<VeiculoModel> listaVeiculos = [];
 
 
 
@@ -189,7 +189,10 @@ class _TelaListarVeiculosState extends State<TelaListarVeiculos> {
                 itemCount: listaVeiculos.length,
                 itemBuilder: (_, i){
                   final veiculo = listaVeiculos[i];
-                  return VeiculoCard(veiculo: veiculo);
+                  return VeiculoCard(
+                      veiculo: veiculo,
+                  onUpdate: _listarVeiculos,
+                  );
                 }))
 
           ],
@@ -201,9 +204,11 @@ class _TelaListarVeiculosState extends State<TelaListarVeiculos> {
 
 class VeiculoCard extends StatelessWidget {
   final VeiculoModel veiculo;
+  final VoidCallback onUpdate;
 
   const VeiculoCard({super.key,
-    required this.veiculo});
+    required this.veiculo,
+    required this.onUpdate});
 
   @override
   Widget build(BuildContext context) {
@@ -228,9 +233,60 @@ class VeiculoCard extends StatelessWidget {
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           subtitle:  Text("Matricula: ${veiculo.matricula}"),
-          trailing: const Icon(Icons.more_vert),
+          trailing:
+
+          PopupMenuButton<String>(
+            onSelected: (value) {
+              if (value == 'remover'){
+                _confRemover(context,veiculo);
+              }
+            },
+            itemBuilder: (context) => [
+              const PopupMenuItem(
+                  value: 'remover',
+                  child: Text("Elimivar veiculo"),
+              ),
+            ],
+          ),
         ),
       ),
     );
+
+
+
   }
+
+
+
+  void  _confRemover(BuildContext context, VeiculoModel veiculo){
+
+    showDialog(context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Confirmar"),
+        content: Text("Deseja eliminar a ${veiculo.marca}"),
+
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context),
+              child: Text("Cancelar")),
+
+          ElevatedButton(onPressed: () async{
+            Navigator.pop(context);
+
+
+
+            await VeiculoController().delVeiculo(veiculo.id);
+
+            onUpdate();
+
+          },
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+            child: Text("Eliminar"),
+          )
+        ],
+
+      ),);
+  }
+
+
+
 }
