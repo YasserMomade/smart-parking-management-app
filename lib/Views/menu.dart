@@ -7,7 +7,7 @@ import 'listarViatura.dart';
 
 class telaMenu extends StatefulWidget {
   final User user;
-   telaMenu({super.key, required this.user});
+  telaMenu({super.key, required this.user});
 
 
 
@@ -20,7 +20,49 @@ class _telaMenuState extends State<telaMenu> {
   Widget build(BuildContext context) {
     return Scaffold(
 
-     
+      //Drawer
+
+      drawer:  Drawer(
+
+        child: ListView(
+          children: [
+
+            UserAccountsDrawerHeader(
+                decoration: BoxDecoration(
+                  color: Color(0xFF0052D4),
+                ),
+
+                currentAccountPicture: Container(
+                  width: 200,
+                  height: 290,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/logo.png'),
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
+
+                accountName: Text((widget.user.displayName != null) ?widget.user.displayName! : "") ,
+                accountEmail: Text(widget.user.email!)
+
+
+            ),
+
+
+            ListTile(
+              title: Text("Sair"), leading: Icon(Icons.logout),
+              onTap: (){
+                UserController().logOut();
+              },
+            ),
+          ],
+
+        ),
+
+
+      ),
+
 
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -204,10 +246,10 @@ class _telaMenuState extends State<telaMenu> {
                       title: 'Lista de veículo',
                       onTap: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
+                          context,
+                          MaterialPageRoute(
                             builder: (context) => const TelaListarVeiculos(),
-                            ),
+                          ),
                         );
                       },
                     ),
@@ -216,10 +258,10 @@ class _telaMenuState extends State<telaMenu> {
                       title: 'Histórico',
                       onTap: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
+                          context,
+                          MaterialPageRoute(
                             builder: (context) => const HistoricoTela(),
-                        ),
+                          ),
                         );
                       },
                     ),

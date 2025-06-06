@@ -20,8 +20,8 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-     debugShowCheckedModeBanner: false,
-        home: roteador(),
+      debugShowCheckedModeBanner: false,
+      home: roteador(),
     );
   }
 }
@@ -36,7 +36,7 @@ class roteador extends StatelessWidget {
         builder: (context,snapshot){
 
           if(snapshot.hasData){
-            return  telaMenu();
+            return  telaMenu(user: snapshot.data!,);
           }else{
             return Telainicialview();
           }
