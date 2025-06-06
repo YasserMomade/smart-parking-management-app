@@ -36,7 +36,7 @@ class roteador extends StatelessWidget {
         builder: (context,snapshot){
 
           if(snapshot.hasData){
-            return  telaMenu(user: snapshot.data!,);
+            return  telaMenu();
           }else{
             return Telainicialview();
           }
