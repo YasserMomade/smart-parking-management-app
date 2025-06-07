@@ -1,28 +1,28 @@
 
 import 'package:flutter/material.dart';
 
-void main() => runApp(const MarcarVagaApp());
+void main() => runApp(const HoraChegadaApp());
 
-class MarcarVagaApp extends StatelessWidget {
-  const MarcarVagaApp({super.key});
+class HoraChegadaApp extends StatelessWidget {
+  const HoraChegadaApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const MarkSlotScreen(),
+      home: const HoraChegada(),
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
-class MarkSlotScreen extends StatefulWidget {
-  const MarkSlotScreen({super.key});
+class HoraChegada extends StatefulWidget {
+  const HoraChegada({super.key});
 
   @override
-  State<MarkSlotScreen> createState() => _MarkSlotScreenState();
+  State<HoraChegada> createState() => _MarkSlotScreenState();
 }
 
-class _MarkSlotScreenState extends State<MarkSlotScreen> {
+class _MarkSlotScreenState extends State<HoraChegada> {
   TimeOfDay? _horaSelecionada;
 
   Future<void> _selecionarHora() async {
@@ -46,7 +46,7 @@ class _MarkSlotScreenState extends State<MarkSlotScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Selecionar Hora', style: TextStyle(color: Colors.blue)),
+        title: const Text('ParkWise', style: TextStyle(color: Colors.blue)),
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
@@ -131,7 +131,7 @@ class _MarkSlotScreenState extends State<MarkSlotScreen> {
                 ),
               ),
               child: const Text(
-                'Confirmar Marcação',
+                'Confirmar',
                 style: TextStyle(color: Colors.white, fontSize: 16),
               ),
             ),
