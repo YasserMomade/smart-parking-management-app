@@ -5,7 +5,7 @@ class EventoController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final CollectionReference _eventosRef = FirebaseFirestore.instance.collection('eventos');
 
-  // ✅ CORRETO: Recebe um EventoModel
+ 
   Future<void> adicionarEvento(EventoModel evento) async {
     try {
       await _eventosRef.add(evento.toMap());
