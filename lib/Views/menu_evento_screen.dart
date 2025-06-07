@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'EventosCategoriaView.dart';
+
 class MenuEventoScreen extends StatelessWidget {
   const MenuEventoScreen({super.key});
 
@@ -67,7 +69,15 @@ class MenuEventoScreen extends StatelessWidget {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               children: categorias.map((cat) {
-                return Container(
+
+                return GestureDetector(
+                  onTap: (){
+                    Navigator.push(context,
+                        MaterialPageRoute(
+                            builder:(_)=> TelaEventos(categoria: cat["label"],) ));
+                  },
+
+                child: Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(14),
@@ -86,6 +96,7 @@ class MenuEventoScreen extends StatelessWidget {
                       Text(cat["label"]),
                     ],
                   ),
+                ),
                 );
               }).toList(),
             ),

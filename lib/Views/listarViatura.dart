@@ -100,7 +100,13 @@ class _TelaListarVeiculosState extends State<TelaListarVeiculos> {
             ListTile(
               title: Text("Menu"), leading: Icon(Icons.home_rounded),
               onTap: (){
-
+              
+                Navigator.pushAndRemoveUntil(context,
+                    MaterialPageRoute(
+                        builder: (_) =>
+                            telaMenu(user: FirebaseAuth.instance.currentUser!)),
+                      (Route<dynamic> route) => false,);
+                
               },
             ),
 
@@ -110,6 +116,7 @@ class _TelaListarVeiculosState extends State<TelaListarVeiculos> {
               title: Text("Sair"), leading: Icon(Icons.logout),
               onTap: (){
                 UserController().logOut();
+                Navigator.pop(context);
               },
             ),
 

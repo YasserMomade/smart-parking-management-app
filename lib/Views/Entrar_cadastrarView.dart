@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marcacaovagas/Controllers/UserController.dart';
 import 'package:marcacaovagas/Models/userModel.dart';
-import 'package:marcacaovagas/Views/MenuView.dart';
 import 'package:marcacaovagas/_cocum/input.dart';
 import 'package:marcacaovagas/_cocum/SnackBar.dart';
 import 'package:marcacaovagas/Views/TelaInicialView.dart';
@@ -271,6 +270,8 @@ class _EntrarCadastrarviewState extends State<EntrarCadastrarview> {
               if (erro != null) {
                 // Voltou com erro(Ocorreu um erro no cadastro)
                 mostrarSnackBar(context: context, txt: erro);
+              }else{
+                Navigator.pop(context);
               }
             });
 
@@ -288,6 +289,8 @@ class _EntrarCadastrarviewState extends State<EntrarCadastrarview> {
               if (erro != null) {
                 // Voltou com erro(Ocorreu um erro no cadastro)
                 mostrarSnackBar(context: context, txt: erro);
+              } else{
+                Navigator.pop(context);
               }
             });
       }

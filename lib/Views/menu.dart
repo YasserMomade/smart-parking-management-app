@@ -4,6 +4,7 @@ import '../Controllers/UserController.dart';
 import 'HistoricoTela.dart';
 import 'adicionar_Viatura.dart';
 import 'listarViatura.dart';
+import 'menu_evento_screen.dart';
 
 class telaMenu extends StatefulWidget {
   final User user;
@@ -227,7 +228,13 @@ class _telaMenuState extends State<telaMenu> {
                     _cartaoMenu(
                       icon: Icons.search,
                       title: 'Marcar vaga',
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                            builder: (context) => const MenuEventoScreen(),
+                        ),);
+                      },
                     ),
                     _cartaoMenu(
                       icon: Icons.add,

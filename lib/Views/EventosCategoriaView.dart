@@ -3,11 +3,14 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../Models/evento_model.dart';
 import '../evento_service.dart';
 
-class TelaAeroporto extends StatelessWidget {
-  const TelaAeroporto({super.key});
+class TelaEventos extends StatelessWidget {
+  final String categoria;
+  const TelaEventos({super.key,
+    required this.categoria});
 
   Future<List<EventoModel>> _carregarEventos() {
-    return EventoService().buscarEventosPorCategoria('Aeroporto');
+
+    return EventoService().buscarEventosPorCategoria(categoria);
   }
 
   @override
@@ -30,6 +33,13 @@ class TelaAeroporto extends StatelessWidget {
           ),
         ],
         title: Center(
+
+          child: GestureDetector(
+            onTap: (){
+              Navigator.pop(context);
+            },
+
+
           child: Text(
             "ParkWise",
             style: GoogleFonts.poppins(
@@ -37,6 +47,7 @@ class TelaAeroporto extends StatelessWidget {
               fontWeight: FontWeight.bold,
               fontSize: 18,
             ),
+          ),
           ),
         ),
       ),
@@ -53,7 +64,7 @@ class TelaAeroporto extends StatelessWidget {
                 future: _carregarEventos(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator(color: Colors.black,));
                   }
                   if (!snapshot.hasData || snapshot.data!.isEmpty) {
                     return const Center(child: Text("Sem eventos disponíveis."));
