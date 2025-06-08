@@ -7,6 +7,7 @@ class EventoModel {
   final double valor;
   final String tipo;
   final int vagas;
+  final String local;
 
   EventoModel({
     this.id,
@@ -16,7 +17,8 @@ class EventoModel {
     required this.horaFim,
     required this.valor,
     required this.tipo,
-    required this.vagas
+    required this.vagas,
+    required this.local
   });
 
   Map<String, dynamic> toMap() {
@@ -27,7 +29,8 @@ class EventoModel {
       'horaFim': horaFim,
       'valor': valor,
       'tipo': tipo,
-      'vags': vagas
+      'vags': vagas,
+      'local': local
 
     };
   }
@@ -42,6 +45,7 @@ class EventoModel {
       valor: (map['valor'] as num).toDouble(),
       tipo: map['tipo'] ?? '',
       vagas: map['vags']?? 0,
+      local: map['local'] ?? '',
     );
   }
 }

@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'DefinirHora_Chegada.dart';
 
 class ListaEventosScreen extends StatelessWidget {
   const ListaEventosScreen({super.key});
@@ -7,7 +8,7 @@ class ListaEventosScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(), // futuro menu lateral
+      drawer: Drawer(),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -44,7 +45,9 @@ class ListaEventosScreen extends StatelessWidget {
                 Text(
                   "Lista dos Eventos",
                   style: TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 SizedBox(width: 8),
                 Icon(Icons.celebration_outlined),
@@ -54,7 +57,7 @@ class ListaEventosScreen extends StatelessWidget {
             Expanded(
               child: ListView.builder(
                 itemCount: 6,
-                itemBuilder: (_, index) => EventoCard(),
+                itemBuilder: (_, index) => const EventoCard(),
               ),
             ),
           ],
@@ -71,13 +74,18 @@ class EventoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Navega para a tela de menu de eventos
-        Navigator.pushNamed(context, '/menu');
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const HoraChegada(), // Sua tela já está correta
+          ),
+        );
       },
       child: Card(
         elevation: 4,
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10)),
+          borderRadius: BorderRadius.circular(10),
+        ),
         margin: const EdgeInsets.symmetric(vertical: 8),
         child: ListTile(
           contentPadding: const EdgeInsets.all(16),
@@ -85,7 +93,7 @@ class EventoCard extends StatelessWidget {
             "Picasso Eventos",
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          subtitle: const Text("12/05/2025\n7:10 ate 17:30"),
+          subtitle: const Text("12/05/2025\n7:10 até 17:30"),
           trailing: const Icon(Icons.more_vert),
         ),
       ),
