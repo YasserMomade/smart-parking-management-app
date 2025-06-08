@@ -1,8 +1,8 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:marcacaovagas/Models/userModel.dart';
+
+
+import '../Models/userModel.dart';
 
 class UserController {
 

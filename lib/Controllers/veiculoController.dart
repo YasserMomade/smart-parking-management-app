@@ -1,8 +1,7 @@
-
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:marcacaovagas/Models/veiculoModel.dart';
+
+
+import '../Models/veiculoModel.dart';
 
 class VeiculoController {
 

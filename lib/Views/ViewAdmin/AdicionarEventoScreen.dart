@@ -3,25 +3,6 @@ import 'package:intl/intl.dart';
 import '../../Controllers/evento_controller.dart';
 import '../../Models/evento_model.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Gerenciador de Eventos',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const AdicionarEventoScreen(),
-    );
-  }
-}
-
 class AdicionarEventoScreen extends StatefulWidget {
   const AdicionarEventoScreen({super.key});
 
@@ -39,6 +20,7 @@ class _AdicionarEventoScreenState extends State<AdicionarEventoScreen> {
   final TextEditingController precoController = TextEditingController();
   final TextEditingController localController = TextEditingController();
   final TextEditingController vagasController = TextEditingController();
+
 
   String? categoriaSelecionada;
 
@@ -131,7 +113,8 @@ class _AdicionarEventoScreenState extends State<AdicionarEventoScreen> {
                 controller: horaInicioController,
                 readOnly: true,
                 onTap: () => _selecionarHora(horaInicioController),
-                decoration: const InputDecoration(labelText: 'Hora de Início'),
+                decoration:
+                const InputDecoration(labelText: 'Hora de Início'),
                 validator: (value) =>
                 value!.isEmpty ? 'Campo obrigatório' : null,
               ),
@@ -139,13 +122,15 @@ class _AdicionarEventoScreenState extends State<AdicionarEventoScreen> {
                 controller: horaFimController,
                 readOnly: true,
                 onTap: () => _selecionarHora(horaFimController),
-                decoration: const InputDecoration(labelText: 'Hora de Fim'),
+                decoration:
+                const InputDecoration(labelText: 'Hora de Fim'),
                 validator: (value) =>
                 value!.isEmpty ? 'Campo obrigatório' : null,
               ),
               TextFormField(
                 controller: precoController,
-                decoration: const InputDecoration(labelText: 'Preço por Hora'),
+                decoration:
+                const InputDecoration(labelText: 'Preço por Hora'),
                 keyboardType: TextInputType.number,
                 validator: (value) =>
                 value!.isEmpty ? 'Campo obrigatório' : null,
@@ -157,6 +142,7 @@ class _AdicionarEventoScreenState extends State<AdicionarEventoScreen> {
                 validator: (value) =>
                 value!.isEmpty ? 'Campo obrigatório' : null,
               ),
+
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
@@ -165,14 +151,12 @@ class _AdicionarEventoScreenState extends State<AdicionarEventoScreen> {
                       final evento = EventoModel(
                         titulo: nomeController.text,
                         tipo: categoriaSelecionada!,
-                        data:
-                        DateFormat('dd/MM/yyyy').parse(dataController.text),
+                        data: DateFormat('dd/MM/yyyy').parse(dataController.text),
                         horaInicio: horaInicioController.text,
                         horaFim: horaFimController.text,
                         valor: double.tryParse(precoController.text) ?? 0.0,
                         id: null,
                         vagas: int.tryParse(vagasController.text) ?? 0,
-                        local: localController.text, // Added 'local' field
                       );
 
                       await EventoController().adicionarEvento(evento);
@@ -193,7 +177,8 @@ class _AdicionarEventoScreenState extends State<AdicionarEventoScreen> {
                     } catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                            content: Text('Erro ao adicionar evento: $e')),
+                            content:
+                            Text('Erro ao adicionar evento: $e')),
                       );
                     }
                   }
@@ -207,5 +192,3 @@ class _AdicionarEventoScreenState extends State<AdicionarEventoScreen> {
     );
   }
 }
-
-

@@ -1,21 +1,45 @@
+import 'package:ParkWise/Models/veiculoModel.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(const vagaepagamento());
+import '../Models/evento_model.dart';
+
 
 class vagaepagamento extends StatelessWidget {
-  const vagaepagamento({super.key});
+  vagaepagamento({super.key,
+    required this.veiculoModel,
+    required this.eventoModel,
+    required this.numeroVaga,
+  });
+
+
+
+  final  EventoModel eventoModel;
+  final VeiculoModel veiculoModel;
+  final int numeroVaga;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: VagaInfoScreen(),
+      home:  VagaInfoScreen(
+        eventoModel: eventoModel,
+        veiculoModel: veiculoModel,
+        numeroVaga: numeroVaga,),
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
 class VagaInfoScreen extends StatelessWidget {
-  const VagaInfoScreen({super.key});
+
+  final EventoModel eventoModel;
+  final VeiculoModel veiculoModel;
+  final int numeroVaga;
+
+  const VagaInfoScreen({super.key,
+    required this.eventoModel,
+    required this.veiculoModel,
+    required this.numeroVaga,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -48,17 +72,17 @@ class VagaInfoScreen extends StatelessWidget {
             const SizedBox(height: 4),
             const Icon(Icons.edit_note, size: 24),
             const SizedBox(height: 16),
-            const Align(
+            Align(
               alignment: Alignment.centerLeft,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Nº Vaga: 12'),
-                  Text('Data: 17/05/2025'),
-                  Text('Hora_Entrada: 8:25'),
-                  Text('Hora_Saida: 17:25'),
-                  Text('Evento: Espectaculo'),
-                  Text('Valor: 450MT'),
+                  Text('Nº Vaga: $numeroVaga'),
+                  Text('Data: ${eventoModel.data}'),
+                  Text('Hora_Entrada: ${eventoModel.horaInicio}'),
+                  Text('Hora_Saida:${eventoModel.horaFim}'),
+                  Text('Evento:  ${eventoModel.titulo}'),
+                  Text('Valor:  ${eventoModel.valor} MT'),
                 ],
               ),
             ),

@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:marcacaovagas/Controllers/veiculoController.dart';
-import 'package:marcacaovagas/Models/veiculoModel.dart';
 import 'package:uuid/uuid.dart';
+
+import '../Controllers/veiculoController.dart';
+import '../Models/veiculoModel.dart';
 
 class AdicionarViatura extends StatefulWidget {
   const AdicionarViatura({super.key});

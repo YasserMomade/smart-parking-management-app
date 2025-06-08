@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:marcacaovagas/Controllers/UserController.dart';
-import 'package:marcacaovagas/Models/userModel.dart';
-import 'package:marcacaovagas/_cocum/input.dart';
-import 'package:marcacaovagas/_cocum/SnackBar.dart';
-import 'package:marcacaovagas/Views/TelaInicialView.dart';
+
+import '../Controllers/UserController.dart';
+import '../Models/userModel.dart';
+import '../_cocum/SnackBar.dart';
+import '../_cocum/input.dart';
+
 
 
 class EntrarCadastrarview extends StatefulWidget {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:marcacaovagas/Views/Entrar_cadastrarView.dart';
-import 'package:marcacaovagas/main.dart';
+
+import 'Entrar_cadastrarView.dart';
+
 
 
 class Telainicialview extends StatelessWidget {

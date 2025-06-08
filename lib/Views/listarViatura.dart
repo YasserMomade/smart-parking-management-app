@@ -1,9 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:marcacaovagas/Controllers/veiculoController.dart';
-import 'package:marcacaovagas/Models/veiculoModel.dart';
-
 import '../Controllers/UserController.dart';
+import '../Controllers/veiculoController.dart';
+import '../Models/veiculoModel.dart';
 import 'menu.dart';
 
 

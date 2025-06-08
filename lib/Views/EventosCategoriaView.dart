@@ -1,3 +1,4 @@
+import 'package:ParkWise/Views/SelecionarVeiculo.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../Models/evento_model.dart';
@@ -108,8 +109,11 @@ class EventoCard extends StatelessWidget {
             "${evento.data}\n${evento.horaInicio} até ${evento.horaFim}\nVagas disponíveis: ${evento.vagas}"),
         trailing: const Icon(Icons.more_vert),
         onTap: () {
-          // Leva para a tela de marcação de vaga
-          Navigator.pushNamed(context, '/marcar_vaga', arguments: evento);
+          Navigator.push(context,
+            MaterialPageRoute(builder:
+                (context)=>SelecionarVeiculos(eventoModel: evento,),
+            ),
+          );
         },
       ),
     );

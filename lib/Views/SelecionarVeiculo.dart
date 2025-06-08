@@ -1,14 +1,18 @@
+import 'package:ParkWise/Models/evento_model.dart';
+import 'package:ParkWise/Views/vagaepagamento.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:marcacaovagas/Controllers/veiculoController.dart';
-import 'package:marcacaovagas/Models/veiculoModel.dart';
-
 import '../Controllers/UserController.dart';
+import '../Controllers/veiculoController.dart';
+import '../Models/veiculoModel.dart';
 import 'menu.dart';
 
 
 class SelecionarVeiculos extends StatefulWidget {
-  const SelecionarVeiculos({super.key});
+  SelecionarVeiculos({super.key,required this.eventoModel});
+
+  final EventoModel eventoModel;
 
   @override
   State<SelecionarVeiculos> createState() => _SelecionarVeiculosState();
@@ -98,15 +102,15 @@ class _SelecionarVeiculosState extends State<SelecionarVeiculos> {
             ),
 
             ListTile(
-              title: Text("Menu"), leading: Icon(Icons.home_rounded),
+              title: Text(widget.eventoModel.tipo), leading: Icon(Icons.home_rounded),
               onTap: (){
-              
+
                 Navigator.pushAndRemoveUntil(context,
-                    MaterialPageRoute(
-                        builder: (_) =>
-                            telaMenu(user: FirebaseAuth.instance.currentUser!)),
+                  MaterialPageRoute(
+                      builder: (_) =>
+                          telaMenu(user: FirebaseAuth.instance.currentUser!)),
                       (Route<dynamic> route) => false,);
-                
+
               },
             ),
 
@@ -167,13 +171,7 @@ class _SelecionarVeiculosState extends State<SelecionarVeiculos> {
                 IconButton(
                   icon: const Icon(Icons.arrow_back),
                   onPressed: () {
-                    // Navigate to 'telaMenu'
-                    //Navigator.push(
-                    //  context,
-                    // MaterialPageRoute(
-                    // builder: (context) => const telaMenu(),
-                    //),
-                    //);
+                    Navigator.pop(context);
                   },
                 ),
                 const SizedBox(width: 8),
@@ -197,8 +195,11 @@ class _SelecionarVeiculosState extends State<SelecionarVeiculos> {
                 itemBuilder: (_, i){
                   final veiculo = listaVeiculos[i];
                   return VeiculoCard(
-                      veiculo: veiculo,
-                  onUpdate: _listarVeiculos,
+                    veiculo: veiculo,
+                    onUpdate: _listarVeiculos,
+                    eventoModel: widget.eventoModel,
+
+
                   );
                 }))
 
@@ -212,16 +213,77 @@ class _SelecionarVeiculosState extends State<SelecionarVeiculos> {
 class VeiculoCard extends StatelessWidget {
   final VeiculoModel veiculo;
   final VoidCallback onUpdate;
+  final EventoModel eventoModel;
 
   const VeiculoCard({super.key,
     required this.veiculo,
-    required this.onUpdate});
+    required this.onUpdate,
+    required this.eventoModel});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        print('Veiculo clicad: ${veiculo.id}');
+      onTap: () async {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return const Center(
+              child: CircularProgressIndicator(color: Colors.blueAccent),
+            );
+          },
+        );
+
+        final firestore = FirebaseFirestore.instance;
+        final eventoRef = firestore.collection('eventos').doc(eventoModel.id);
+
+        try {
+          await firestore.runTransaction((transaction) async {
+            final snapshot = await transaction.get(eventoRef);
+
+            if (!snapshot.exists) {
+              Navigator.pop(context); // fecha o loader
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Evento não encontrado')),
+              );
+              return;
+            }
+
+            int vagas = snapshot.get('vags') ?? 0;
+
+            if (vagas <= 0) {
+              Navigator.pop(context); // fecha o loader
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Nenhuma vaga disponível para este evento')),
+              );
+              return;
+            }
+
+            int vagaSelecionada = vagas;
+
+
+            transaction.update(eventoRef, {'vags': vagas - 1});
+
+            Navigator.pop(context);
+
+
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => vagaepagamento(
+                  veiculoModel: veiculo,
+                  eventoModel: eventoModel, numeroVaga: vagaSelecionada,
+                  
+                ),
+              ),
+            );
+          });
+        } catch (e) {
+          Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Erro ao reservar vaga: $e')),
+          );
+        }
       },
       child: Card(
         elevation: 4,
@@ -234,31 +296,27 @@ class VeiculoCard extends StatelessWidget {
             color: Colors.orange,
             size: 30,
           ),
-
           title: Text(
             veiculo.marca,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          subtitle:  Text("Matricula: ${veiculo.matricula}"),
-          trailing:
-
-          PopupMenuButton<String>(
+          subtitle: Text("Matricula: ${veiculo.matricula}"),
+          trailing: PopupMenuButton<String>(
             onSelected: (value) {
-              if (value == 'remover'){
-                _confRemover(context,veiculo);
+              if (value == 'remover') {
+                _confRemover(context, veiculo);
               }
             },
             itemBuilder: (context) => [
               const PopupMenuItem(
-                  value: 'remover',
-                  child: Text("Elimivar veiculo"),
+                value: 'remover',
+                child: Text("Remover veículo"),
               ),
             ],
           ),
         ),
       ),
     );
-
 
 
   }
