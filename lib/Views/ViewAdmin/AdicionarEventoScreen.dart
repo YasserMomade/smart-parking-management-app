@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:marcacaovagas/firebase_options.dart';
 import 'package:intl/intl.dart';
 import '../../Controllers/evento_controller.dart';
 import '../../Models/evento_model.dart';
