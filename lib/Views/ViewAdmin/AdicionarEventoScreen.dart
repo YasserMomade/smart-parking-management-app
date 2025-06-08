@@ -26,10 +26,10 @@ class _AdicionarEventoScreenState extends State<AdicionarEventoScreen> {
 
   final List<String> categorias = [
     'Supermercado',
-    'Espetáculo',
+    'Espetaculo',
     'Parque',
     'Aeroporto',
-    'Estádio',
+    'Estadio',
   ];
 
   Future<void> _selecionarData() async {
@@ -157,6 +157,7 @@ class _AdicionarEventoScreenState extends State<AdicionarEventoScreen> {
                         valor: double.tryParse(precoController.text) ?? 0.0,
                         id: null,
                         vagas: int.tryParse(vagasController.text) ?? 0,
+                        local: localController.text
                       );
 
                       await EventoController().adicionarEvento(evento);
