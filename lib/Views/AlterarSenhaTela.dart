@@ -24,13 +24,13 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const EditarPerfilTela(),
+      home: const Alterarsenhatela(),
     );
   }
 }
 
-class EditarPerfilTela extends StatelessWidget {
-  const EditarPerfilTela({super.key});
+class Alterarsenhatela extends StatelessWidget {
+  const Alterarsenhatela({super.key});
 
   @override
   Widget build(BuildContext context) {

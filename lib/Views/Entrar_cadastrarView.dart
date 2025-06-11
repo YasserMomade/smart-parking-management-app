@@ -4,6 +4,7 @@ import '../Controllers/UserController.dart';
 import '../Models/userModel.dart';
 import '../_cocum/SnackBar.dart';
 import '../_cocum/input.dart';
+import 'ViewAdmin/MenuAdminScreen.dart';
 
 
 
@@ -256,7 +257,13 @@ class _EntrarCadastrarviewState extends State<EntrarCadastrarview> {
 
     //Validador dos inputs
     if(_formKey.currentState!.validate()){
-      if(queroEntrar){
+
+      if (_emailctrl.text == "admin@gmail.com" && _senhacrtl.text == "admin123") {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (_) => MenuAdminScreen()));
+      }
+
+   else if(queroEntrar){
 
         final utilizador = UserModel(
             nome: '',

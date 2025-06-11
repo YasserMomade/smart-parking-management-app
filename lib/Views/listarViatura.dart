@@ -70,10 +70,8 @@ class _TelaListarVeiculosState extends State<TelaListarVeiculos> {
 
 
       drawer:  Drawer(
-
         child: ListView(
           children: [
-
             UserAccountsDrawerHeader(
               decoration: BoxDecoration(
                 color: Color(0xFF0052D4),
@@ -118,14 +116,8 @@ class _TelaListarVeiculosState extends State<TelaListarVeiculos> {
                 Navigator.pop(context);
               },
             ),
-
-
-
           ],
-
         ),
-
-
       ),
 
 

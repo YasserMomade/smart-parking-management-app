@@ -23,6 +23,15 @@ class UserModel{
     };
   }
 
+  factory UserModel.fromMap(Map<String, dynamic> map) {
+    return UserModel(
+      nome: map['nome'] ?? '',
+      email: map['email'] ?? '',
+      numero: map['numero'] ?? '',
+      senha: '',
+    );
+  }
+
   @override
   String toString() {
     return 'UserModel(nome: $nome, email: $email, senha: $senha, numero: $numero)';

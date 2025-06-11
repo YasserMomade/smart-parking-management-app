@@ -1,36 +1,80 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+import '../Controllers/userController.dart';
+import '../Models/userModel.dart';
+
+class EditarPerfilTela extends StatefulWidget {
+  const EditarPerfilTela({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'ParkWise Editar Perfil',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        inputDecorationTheme: const InputDecorationTheme(
-          isDense: true,
-          contentPadding: EdgeInsets.symmetric(vertical: 10.0),
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
-          ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.blue, width: 2.0),
-          ),
-          hintStyle: TextStyle(
-            color: Colors.grey,
-            fontSize: 16,
-          ),
-        ),
-      ),
-      home: const EditarPerfilTela(),
-    );
-  }
+  State<EditarPerfilTela> createState() => _EditarPerfilTelaState();
 }
 
-class EditarPerfilTela extends StatelessWidget {
-  const EditarPerfilTela({super.key});
+class _EditarPerfilTelaState extends State<EditarPerfilTela> {
+  final _userController = UserController();
+
+  final TextEditingController _nomeController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _numeroController = TextEditingController();
+
+  String? userId;
+  bool carregando = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _getUser();
+  }
+
+  void _getUser() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      setState(() {
+        userId = user.uid;
+      });
+      await _carregarDadosUsuario();
+    }
+  }
+
+  Future<void> _carregarDadosUsuario() async {
+    if (userId == null) return;
+
+    setState(() {
+      carregando = true;
+    });
+
+    final userModel = await _userController.getUserData(userId!);
+
+    if (userModel != null) {
+      setState(() {
+        _nomeController.text = userModel.nome;
+        _emailController.text = userModel.email;
+        _numeroController.text = userModel.numero.toString();
+      });
+    }
+
+    setState(() {
+      carregando = false;
+    });
+  }
+
+  Future<void> _salvarAlteracoes() async {
+    if (userId == null) return;
+
+    final userAtualizado = UserModel(
+      nome: _nomeController.text,
+      email: _emailController.text,
+      numero: _numeroController.hashCode,
+      senha: '',
+    );
+
+    await _userController.updateUser(userAtualizado, userId!);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Dados atualizados com sucesso!')),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +82,7 @@ class EditarPerfilTela extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.menu),
-          onPressed: () {
-          },
+          onPressed: () {},
         ),
         title: const Text(
           'ParkWise',
@@ -54,61 +97,66 @@ class EditarPerfilTela extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.notifications),
-            onPressed: () {
-            },
+            onPressed: () {},
           ),
         ],
       ),
-      body: Padding(
+      body: carregando
+          ? const Center(child: CircularProgressIndicator())
+          : Padding(
         padding: const EdgeInsets.all(24.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Editar Perfil',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Editar Perfil',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            const SizedBox(height: 40),
-            _buildInputField(context, 'Nome', 'Altere o seu nome'),
-            const SizedBox(height: 20),
-            _buildInputField(context, 'Email', 'Altere o seu email'),
-            const SizedBox(height: 20),
-            _buildInputField(context, 'Numero', 'Altere o seu numero', keyboardType: TextInputType.phone),
-            const SizedBox(height: 50),
-            Center(
-              child: SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: () {
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+              const SizedBox(height: 40),
+              _buildInputField('Nome', _nomeController),
+              const SizedBox(height: 20),
+              _buildInputField('Email', _emailController),
+              const SizedBox(height: 20),
+              _buildInputField('Número', _numeroController,
+                  keyboardType: TextInputType.phone),
+              const SizedBox(height: 50),
+              Center(
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: _salvarAlteracoes,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                     ),
-                  ),
-                  child: const Text(
-                    'Alterar',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+                    child: const Text(
+                      'Alterar',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildInputField(BuildContext context, String labelText, String hintText, {TextInputType keyboardType = TextInputType.text}) {
+  Widget _buildInputField(
+      String labelText, TextEditingController controller,
+      {TextInputType keyboardType = TextInputType.text}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -121,9 +169,10 @@ class EditarPerfilTela extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         TextField(
+          controller: controller,
           keyboardType: keyboardType,
           decoration: InputDecoration(
-            hintText: hintText,
+            hintText: 'Altere o seu $labelText',
           ),
           style: const TextStyle(fontSize: 18),
         ),

@@ -17,6 +17,8 @@ class UserController {
           .createUserWithEmailAndPassword(
           email: user.email, password: user.senha);
 
+          await credential.user!.updateDisplayName(user.nome);
+
       //Salvar dados adicionais no firestore como nome e numero
 
       final firebaseUser = credential.user;
@@ -38,6 +40,23 @@ class UserController {
     }
   }
 
+  Future<UserModel?> getUserData(String userId) async {
+    try {
+      final user = _firebaseAuth.currentUser;
+      if (user != null) {
+        final doc = await _firestore.collection('utilizador').doc(userId).get();
+        if (doc.exists) {
+          final data = doc.data()!;
+          return UserModel.fromMap({...data, 'uid': userId});
+        }
+      }
+      return null;
+    } catch (e) {
+      print("Erro ao buscar dados do usuario: $e");
+      return null;
+    }
+  }
+
 
   Future<String?> logarUser({required UserModel user}) async {
     try {
@@ -49,9 +68,22 @@ class UserController {
     }
   }
 
+
+
+  Future<void> updateUser(UserModel user, String userId) async {
+    try {
+      await _firestore.collection('utilizador').doc(userId).update(user.toMap());
+    } catch (e) {
+      print("Erro ao atualizar dados: $e");
+    }
+  }
+
   Future<void> logOut() async{
     _firebaseAuth.signOut();
   }
+
+
+
 
 
 
