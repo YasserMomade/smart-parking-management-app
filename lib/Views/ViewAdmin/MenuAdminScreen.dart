@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'AdicionarEventoScreen.dart';       // ajuste o caminho conforme necessário
-import '../reclamacoes.dart';
-import 'listaReclamacoes.dart';  // ajuste o caminho conforme necessário
+import 'AdicionarEventoScreen.dart';
+import 'listaReclamacoes.dart';
+
 
 class MenuAdminScreen extends StatelessWidget {
   const MenuAdminScreen({super.key});
@@ -13,7 +13,7 @@ class MenuAdminScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            // Cabeçalho centralizado
+
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               color: Colors.white,
@@ -88,7 +88,7 @@ class MenuAdminScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => const TelaListarReclamacoesAdmin(),
+                            builder: (_) =>  TelaListarReclamacoesAdmin(),
                           ),
                         );
                       },
@@ -108,3 +108,5 @@ class MenuAdminScreen extends StatelessWidget {
     );
   }
 }
+
+

@@ -149,15 +149,15 @@ class _AdicionarEventoScreenState extends State<AdicionarEventoScreen> {
                   if (_formKey.currentState!.validate()) {
                     try {
                       final evento = EventoModel(
-                        titulo: nomeController.text,
-                        tipo: categoriaSelecionada!,
-                        data: DateFormat('dd/MM/yyyy').parse(dataController.text),
-                        horaInicio: horaInicioController.text,
-                        horaFim: horaFimController.text,
-                        valor: double.tryParse(precoController.text) ?? 0.0,
-                        id: null,
-                        vagas: int.tryParse(vagasController.text) ?? 0,
-                        local: localController.text
+                          titulo: nomeController.text,
+                          tipo: categoriaSelecionada!,
+                          data: DateFormat('dd/MM/yyyy').parse(dataController.text),
+                          horaInicio: horaInicioController.text,
+                          horaFim: horaFimController.text,
+                          valor: double.tryParse(precoController.text) ?? 0.0,
+                          id: null,
+                          vagas: int.tryParse(vagasController.text) ?? 0,
+                          local: localController.text
                       );
 
                       await EventoController().adicionarEvento(evento);

@@ -46,6 +46,34 @@ class _TelaListarReclamacoesAdminState extends State<TelaListarReclamacoesAdmin>
     });
   }
 
+  void _mostrarDetalhesReclamacao(ReclamacaoModel reclamacao) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text(reclamacao.titulo),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Data da Ocorrência: ${reclamacao.dataOcorrencia}"),
+            const SizedBox(height: 8),
+            Text("Descrição: ${reclamacao.descricao}"),
+            const SizedBox(height: 8),
+            Text("Titulo: ${reclamacao.titulo}"),
+            const SizedBox(height: 8),
+
+          ],
+        ),
+        actions: [
+          TextButton(
+            child: const Text("Fechar"),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,15 +92,18 @@ class _TelaListarReclamacoesAdminState extends State<TelaListarReclamacoesAdmin>
                   ),
                 ),
               ),
-              accountEmail: Text(userEmail ?? ''), accountName: null,
+              accountEmail: Text(userEmail ?? ''),
+              accountName: null,
             ),
             ListTile(
-              title: const Text("Menu"), leading: const Icon(Icons.home_rounded),
+              title: const Text("Menu"),
+              leading: const Icon(Icons.home_rounded),
               onTap: () {},
             ),
             const Divider(),
             ListTile(
-              title: const Text("Sair"), leading: const Icon(Icons.logout),
+              title: const Text("Sair"),
+              leading: const Icon(Icons.logout),
               onTap: () {
                 UserController().logOut();
               },
@@ -147,6 +178,7 @@ class _TelaListarReclamacoesAdminState extends State<TelaListarReclamacoesAdmin>
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                       ),
+                      onTap: () => _mostrarDetalhesReclamacao(reclamacao),
                     ),
                   );
                 },
