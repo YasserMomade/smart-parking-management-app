@@ -39,15 +39,15 @@ class EventoModel {
 
   factory EventoModel.fromMap(Map<String, dynamic> map, String id) {
     return EventoModel(
-      id: id,
-      titulo: map['titulo'] ?? '',
-      data: DateTime.parse(map['data']),
-      horaInicio: map['horaInicio'] ?? '',
-      horaFim: map['horaFim'] ?? '',
-      valor: (map['valor'] as num).toDouble(),
-      tipo: map['tipo'] ?? '',
-      vagas: map['vags']?? 0,
-      local: map['local']?? ''
+        id: id,
+        titulo: map['titulo'] ?? '',
+        data: DateTime.parse(map['data']),
+        horaInicio: map['horaInicio'] ?? '',
+        horaFim: map['horaFim'] ?? '',
+        valor: (map['valor'] as num).toDouble(),
+        tipo: map['tipo'] ?? '',
+        vagas: map['vags']?? 0,
+        local: map['local']?? ''
     );
   }
 }
